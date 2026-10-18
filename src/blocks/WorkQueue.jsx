@@ -500,11 +500,8 @@ export default function Block() {
   const so = stObj(leadStatus);
   const nameParts = editName.trim().split(/\s+/);
   const firstName = nameParts[0] || handle || "there";
-  const lastName = nameParts.slice(1).join(" ") || "";
   const fullName = editName || "";
   const focusLabel = editFocus || "wellness";
-  const tpsUrl = `https://www.truepeoplesearch.com/results?name=${encodeURIComponent(fullName)}`;
-  const fpsUrl = `https://www.fastpeoplesearch.com/name/${encodeURIComponent((firstName + "-" + lastName).toLowerCase().replace(/\s+/g, "-"))}`;
   const userLink = user ? [{ id: user.id, label: user.fullName || user.firstName || "Rep" }] : [];
   const noteLines = notes ? notes.split("\n").filter(l => l.trim()) : [];
   const consumerTopic = topicPhrase(f?.consumer_note);
@@ -592,8 +589,6 @@ export default function Block() {
   };
 
   const searchG = (qy) => window.open(`https://www.google.com/search?q=${encodeURIComponent(qy)}`, "_blank");
-  const openTPS = () => window.open(tpsUrl, "_blank");
-  const openFPS = () => window.open(fpsUrl, "_blank");
   const copyDM = async () => { try { await navigator.clipboard.writeText(dmMsg); setCopied(true); setTimeout(() => setCopied(false), 2000); } catch { toast.error("Copy failed"); } };
   const cycleDM = () => { const next = (dmMsgIdx + 1) % dmTemplates.length; setDmMsgIdx(next); setCopied(false); try { sessionStorage.setItem("athos_dm_rr", String(next)); } catch {} };
 
@@ -904,15 +899,11 @@ export default function Block() {
             <div style={{ padding: 14, borderRadius: 12, backgroundColor: "rgba(36,92,58,0.04)", border: "1px solid rgba(36,92,58,0.1)" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 10 }}><span style={{ color: TEAL }}>{I.tip}</span><span style={{ fontSize: 12, fontWeight: 600, color: TEAL, textTransform: "uppercase", letterSpacing: ".04em" }}>Where to find contact info</span></div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4B5563" }}><span style={{ fontWeight: 600, color: PD }}>1.</span> <span style={{ fontWeight: 600 }}>FastPeopleSearch</span> — free, limited to ~10 lookups/day.</div>
-                <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4B5563" }}><span style={{ fontWeight: 600, color: PD }}>2.</span> <span style={{ fontWeight: 600 }}>TruePeopleSearch</span> — free backup source.</div>
-                <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4B5563" }}><span style={{ fontWeight: 600, color: PD }}>3.</span> <span style={{ fontWeight: 600 }}>Google B2B</span> — find their business, then look up that phone number.</div>
-                <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4B5563" }}><span style={{ fontWeight: 600, color: PD }}>4.</span> Check <span style={{ fontWeight: 600 }}>Instagram bio</span> and <span style={{ fontWeight: 600 }}>Linktree</span> for contact/booking links.</div>
+                <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4B5563" }}><span style={{ fontWeight: 600, color: PD }}>1.</span> <span style={{ fontWeight: 600 }}>Google B2B</span> — find their business, then look up that phone number.</div>
+                <div style={{ fontSize: 13, lineHeight: 1.6, color: "#4B5563" }}><span style={{ fontWeight: 600, color: PD }}>2.</span> Check <span style={{ fontWeight: 600 }}>Instagram bio</span> and <span style={{ fontWeight: 600 }}>Linktree</span> for contact/booking links.</div>
               </div>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-              <button onClick={openFPS} style={{ ...pill(false, P), padding: "8px 14px", fontSize: 13 }}>FastPeopleSearch {I.ext}</button>
-              <button onClick={openTPS} style={{ ...pill(false, P), padding: "8px 14px", fontSize: 13 }}>TruePeopleSearch {I.ext}</button>
               <button onClick={() => searchG(`${fullName} ${focusLabel} phone contact`)} style={{ ...pill(false, P), padding: "8px 14px", fontSize: 13 }}>Google {I.ext}</button>
             </div>
             <div style={{ display: "flex", gap: 8, flexWrap: "wrap", paddingTop: 4 }}>
@@ -925,8 +916,6 @@ export default function Block() {
         {isActive && task.type === "input" && (
           <div style={{ marginTop: 10, marginLeft: 38, display: "flex", flexDirection: "column", gap: 8 }}>
             {!isName && <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-              {isPh && <button onClick={openTPS} style={{ ...pill(false, P), padding: "8px 14px", fontSize: 13 }}>TruePeopleSearch {I.ext}</button>}
-              {isPh && <button onClick={openFPS} style={{ ...pill(false, P), padding: "8px 14px", fontSize: 13 }}>FastPeopleSearch {I.ext}</button>}
               <button onClick={() => searchG(searchQuery)} style={{ ...pill(false, P), padding: "8px 14px", fontSize: 13 }}>Search Google {I.ext}</button>
             </div>}
             <input style={inp} placeholder={placeholder} value={getVal()} onChange={e => setVal(e.target.value)} onFocus={focH} onBlur={blurH} />
