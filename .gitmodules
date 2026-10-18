@@ -1,0 +1,6 @@
+[submodule "external/synthea"]
+	path = external/synthea
+	url = https://github.com/synthetichealth/synthea.git
+[submodule "external/medplum"]
+	path = external/medplum
+	url = https://github.com/medplum/medplum.git
